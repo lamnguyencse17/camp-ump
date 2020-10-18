@@ -11,16 +11,17 @@ services:
         # On Linux, you may need to update USER_UID and USER_GID below if not your local UID is not 1000.
         USER_UID: 1000
         USER_GID: 1000
-
+    working_dir: /workspace
+    network_mode: service:db
     volumes:
       - ..:/workspace:cached
-
+    # networks:
+    #   - app-network
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
-
     # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-    network_mode: service:db
-
+    # networks: 
+    #   - webapp
     # Uncomment the next line to use a non-root user for all processes.
     # user: node
 
@@ -31,7 +32,7 @@ services:
     restart: unless-stopped
     volumes:
       - mongodb-data:/data/db
-
+    working_dir: /workspace
     # Uncomment to change startup options
     # environment:
     #  MONGO_INITDB_ROOT_USERNAME: root
@@ -45,6 +46,7 @@ services:
     network_mode: service:db
     volumes:
       - redis:/data
+    working_dir: /workspace
 volumes:
   mongodb-data:
   redis:

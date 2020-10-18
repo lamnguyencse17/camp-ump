@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 
 const data_uri =
-  "mongodb://localhost:27017/?readPreference=primary&appname=Server&ssl=false";
+  "mongodb://db:27017/camp-ump?readPreference=primary&appname=Server&ssl=false";
 
 mongoose.connect(data_uri, {
     useNewUrlParser: true,
@@ -27,6 +27,9 @@ app.use(cors({ credentials: true, origin: process.env.FRONT_END_URL }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/", (req, res) => {
+  res.send("OK");
+})
 app.use("/api/", require("./routes"));
 
 app.listen(port, () => {
